@@ -1,11 +1,11 @@
 
 
 
-import Pokemon from './pokemon';
+import Pokemon from './Pokemon';
 import Ability from './Ability';
 import Move from './Move';
 import Species  from './Species';
-import Stat from './Stat.';
+import Stat from './Stat';
 import Type from './Type';
 
 class PokemonGateway {
