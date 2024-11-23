@@ -3,7 +3,6 @@ import Captura from '../pages/Captura';
 import Llistat from '../pages/Llistat';
 import InfoPokemon from '../pages/InfoPokemon';
 import Equips from '../pages/Equips';
-import TestPokemonService from '../services/testPokemonService'
 import React from "react";
 
 function AppRoutes() {

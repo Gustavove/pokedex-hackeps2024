@@ -29,7 +29,7 @@ class Pokemon {
         this.cries = cries; // String
         this.height = height; // Integer
         this.locationAreaEncounters = location_area_encounters; // Array of strings
-        this.evolvesTo = evolves_to ? new EvolvesTo(evolves_to.name, evolves_to.id) : null; // EvolvesTo or null
+        //this.evolvesTo = evolves_to ? new EvolvesTo(evolves_to.name, evolves_to.id) : null; // EvolvesTo or null
         this.moves = moves.map((move) => new Move(move.name, move.url)); // Array of Move
         this.species = species ? new Species(species.name, species.url) : null; // Species
         this.image = image; // String
