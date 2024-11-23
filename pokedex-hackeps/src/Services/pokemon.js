@@ -1,3 +1,10 @@
+
+import Ability from './Ability';
+import Move from './Move';
+import Species  from './Species';
+import Stat from './Stat';
+import Type from './Type';
+
 class Pokemon {
     constructor({
         id,
@@ -77,3 +84,5 @@ class Pokemon {
         `;
     }
 }
+
+export default Pokemon;

@@ -3,6 +3,7 @@ import Captura from '../pages/Captura';
 import Llistat from '../pages/Llistat';
 import InfoPokemon from '../pages/InfoPokemon';
 import Equips from '../pages/Equips';
+import TestPokemonService from '../services/testPokemonService'
 import React from "react";
 
 function AppRoutes() {
@@ -12,6 +13,8 @@ function AppRoutes() {
             <Route path="/llistat" element={<Llistat />} />
             <Route path="/infoPokemon/:id" element={<InfoPokemon />} />
             <Route path="/equips" element={<Equips />} />
+            <Route path="/test" element={<testPokemonService />} />
+
         </Routes>
     );
 }
