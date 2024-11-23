@@ -1,12 +1,12 @@
 
 
 
-import Pokemon from './models/Pokemon'; // Assuming Pokemon.js is in the 'models' folder
-import Ability from './models/Ability';
-import Move from './models/Move';
-import Species from './models/Species';
-import Stat from './models/Stat';
-import Type from './models/Type';
+import Pokemon from './pokemon';
+import Ability from './Ability';
+import Move from './Move';
+import Species  from './Species';
+import Stat from './Stat.';
+import Type from './Type';
 
 class PokemonGateway {
     constructor() {
