@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import { QrReader } from "react-qr-reader";
 
 const QRScanner = () => {
-    const [data, setData] = useState("No ha detectado el QR");
+    const [data, setData] = useState("No se ha detectado ningún ID");
     const [error, setError] = useState("");
 
     const handleScan = (result) => {
         if (result) {
-            setData(result.text); // Almacena el texto del QR
-            setError(""); // Limpia errores previos
+            const extractedId = result.text.split('/').pop();
+            setData(extractedId || "No se encontró un ID válido");
+            setError("");
         }
     };
 
@@ -19,7 +20,7 @@ const QRScanner = () => {
 
     return (
         <div style={{ textAlign: "center" }}>
-            <h2>QR Scanner</h2>
+            <h2>Escanner de zonas</h2>
             <QrReader
                 onResult={(result, error) => {
                     if (!!result) {
@@ -33,7 +34,7 @@ const QRScanner = () => {
                 style={{ width: "100%" }}
                 constraints={{ facingMode: "environment" }} // Cámara trasera
             />
-            <p>Resultado: {data}</p>
+            <p>Id de la zona: {data}</p>
             {error && <p style={{ color: "red" }}>{error}</p>}
         </div>
     );
