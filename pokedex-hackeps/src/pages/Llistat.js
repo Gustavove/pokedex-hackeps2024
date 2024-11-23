@@ -1,8 +1,9 @@
 import React from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { getPokemons } from '../Services/PokemonGateway2';
-import { getPokemonById } from '../Services/PokemonGateway2';
+import { getAllPokemons } from '../Services/PokemonService';
+import { getPokemonById } from '../Services/PokemonService';
+
 const Llistat = () => {
     const items = [
         { id: 1, name: 'Item 1', description: 'Descripción breve del Item 1' },
@@ -11,7 +12,7 @@ const Llistat = () => {
     ];
 
     const handleButtonClick = () => {
-        getPokemons().then((pokemons) => {
+        getAllPokemons().then((pokemons) => {
             console.log(pokemons.json());
         });
     };
