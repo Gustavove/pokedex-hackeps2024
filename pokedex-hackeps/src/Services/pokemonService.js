@@ -1,26 +1,26 @@
-class pokemonService {
+import pokemonGateway from './pokemonGateway.js';
 
+class pokemonService {
     constructor() {
         this.pokemons = [];
     }
 
-
-    async getAllPokemons() {
-        pokemonGateway.getAllPokemon().then(pokemonList => {
-           return pokemonList;
+    getAllPokemons() {
+        return pokemonGateway.getAllPokemon().then(pokemonList => {
+            return pokemonList;
         });
     }
 
-    async getPokemonById(id) {
-        pokemonGateway.getPokemonById(id).then(pokemon => {
+    getPokemonById(id) {
+        return pokemonGateway.getPokemonById(id).then(pokemon => {
             return pokemon;
         });
     }
 
-    async evolvePokemonById(id) {
-        pokemonGateway.evolveById(id).then(pokemon => {
+    evolvePokemonById(id) {
+        return pokemonGateway.evolveById(id).then(pokemon => {
             return pokemon;
         });
     }
-
 }
+export default pokemonService;

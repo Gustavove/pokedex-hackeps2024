@@ -1,14 +1,26 @@
 import React from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-
-function Llistat() {
-    // Datos simulados
+import { getPokemons } from '../Services/PokemonGateway2';
+import { getPokemonById } from '../Services/PokemonGateway2';
+const Llistat = () => {
     const items = [
         { id: 1, name: 'Item 1', description: 'Descripción breve del Item 1' },
         { id: 2, name: 'Item 2', description: 'Descripción breve del Item 2' },
         { id: 3, name: 'Item 3', description: 'Descripción breve del Item 3' },
     ];
+
+    const handleButtonClick = () => {
+        getPokemons().then((pokemons) => {
+            console.log(pokemons.json());
+        });
+    };
+
+    const handleButtonClick2 = () => {
+        getPokemonById(152).then((pokemons) => {
+            console.log(pokemons.json());
+        });
+    };
 
     return (
         <Container className="py-5">
@@ -28,6 +40,10 @@ function Llistat() {
                     </Col>
                 ))}
             </Row>
+            <div className="text-center mt-4">
+            <Button variant="secondary" onClick={handleButtonClick}>Nuevo Botón</Button>
+            <Button variant="secondary" onClick={handleButtonClick2}>Nuevo Botón</Button>
+            </div>
         </Container>
     );
 }
