@@ -1,24 +1,14 @@
-import './App.css';
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import './App.css';
-
-
-import Captura from './home'; // Tu componente para la pantalla principal
-import Llistat from './llistat'; // Otro componente para la pantalla de "Acerca de"
-import Equips from './equips'; // Otro componente para la pantalla de "Acerca de"
-
-
+import { BrowserRouter as Router } from 'react-router-dom';
+import AppRoutes from './routes/AppRoutes';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './styles/App.css';
 
 function App() {
-  return (
-      <Router>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-        </Routes>
-      </Router>
-  );
+    return (
+        <Router>
+            <AppRoutes />
+        </Router>
+    );
 }
-
 export default App;
