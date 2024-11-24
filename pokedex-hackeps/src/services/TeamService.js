@@ -13,3 +13,10 @@ export const getTeamPokemons = async() => {
     const team = await getTeam()
     return team['captured_pokemons']
 }
+
+
+
+export const getTeamById = async (id) => {
+    return await getById(id);
+}
+
