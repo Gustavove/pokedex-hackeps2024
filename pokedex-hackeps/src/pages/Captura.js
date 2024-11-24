@@ -18,12 +18,15 @@ const Captura = () => {
 
     return (
         <Container className="my-4">
-            <h1 className="text-center">Escáner de las zonas </h1>
+            <h1 className="text-center">📍 Zone Scanner</h1>
             <Row className="mt-4">
                 <Col>
                     <Card>
+                        <Card.Header>
+                        Scan the QR of your zone here :)
+                        </Card.Header>
                         <Card.Body>
-                            <Card.Title>Escanea el QR de la zona</Card.Title>
+                            <Card.Title></Card.Title>
                             <QRScanner onScanResult={handleScanResult} />
                         </Card.Body>
                     </Card>

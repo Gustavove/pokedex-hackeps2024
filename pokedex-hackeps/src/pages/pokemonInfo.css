@@ -1,0 +1,61 @@
+/* Text information */
+
+.card {
+    max-width: 400px;
+    width: 100%;
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    overflow: hidden;
+    padding: 0;
+    margin: 20px auto;
+}
+
+.card-header {
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    background: transparent;
+    color: white;
+    padding: 20px 10px;
+}
+
+.card-body a {
+    text-decoration: none;
+}
+
+/* Button styling */
+.card-body button {
+    display: block;
+    width: 100%;
+    margin: 20px 0 0;
+    padding: 10px 0;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background-color: #FC5350;
+    border: none;
+    border-radius: 10px;
+    transition: 0.3s ease;
+}
+
+.card-body button:hover {
+    background-color: #c43f3d;
+}
+
+.card-title {
+    margin: 20px 0; /* Adds 20px of margin above and below */
+    text-align: center; /* Centers the title text */
+    font-size: 1.5rem; /* Optional: Adjusts the font size */
+    font-weight: bold; /* Optional: Makes the text bold */
+    color: #333; /* Optional: Sets a darker color for better readability */
+}
+
+.card-body img {
+    display: block;
+    margin: 0 auto; /* Centers the image horizontally */
+    max-width: 100%; /* Ensures the image doesn't overflow its container */
+    height: auto; /* Maintains aspect ratio */
+    padding: 20px 0; /* Optional: Adds spacing above and below the image */
+}
