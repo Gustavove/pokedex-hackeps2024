@@ -1,51 +1,34 @@
-// InfoPokemon.js
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Container, Card, Button, Spinner } from 'react-bootstrap';
-import {getPokemonById} from '../Services/PokemonService'; // Ensure the path to pokemonService is correct
-
-const dummyPokemon = {
-    id: 1,
-    name: "Bulbasaur",
-    height: 7, // Height in decimeters
-    weight: 69, // Weight in hectograms
-    types: [
-        { name: "Grass" },
-        { name: "Poison" }
-    ],
-    abilities: [
-        { name: "Overgrow" },
-        { name: "Chlorophyll" }
-    ],
-    image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png" // Example image URL
-};
-
+import { getPokemonById } from '../Services/PokemonService'; // Asegúrate de que la ruta a pokemonService sea correcta
 
 function InfoPokemon() {
-    const { id } = useParams(); // Get the Pokémon ID from the URL
+    const { nou, id } = useParams(); // Obtén el ID del Pokémon desde la URL
     const [pokemon, setPokemon] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // Fetch Pokémon data when the component mounts or the ID changes
+    // useEffect para obtener datos cuando el componente se monta o cambia el ID
     useEffect(() => {
         const fetchPokemon = async () => {
             try {
                 setLoading(true);
-                const data = await getPokemonById(id);
-                console.log(data);
-                setPokemon(data);
-                setLoading(false);
+                setError(null); // Resetea el estado de error al iniciar la carga
+                const data = await getPokemonById(id); // Obtén los datos del Pokémon por ID
+                console.log("Fetched data:", data);
+                setPokemon(data.json());
             } catch (error) {
                 setError('Failed to load Pokémon information.');
+            } finally {
                 setLoading(false);
             }
         };
+
+        fetchPokemon();
     }, [id]);
 
-
-
-    // Show a loading spinner while data is being fetched
+    // Si está cargando, muestra un spinner
     if (loading) {
         return (
             <Container className="text-center py-5">
@@ -55,7 +38,7 @@ function InfoPokemon() {
         );
     }
 
-    // Show an error message if data fetching fails
+    // Si hay un error, muestra el mensaje de error
     if (error) {
         return (
             <Container className="text-center py-5">
@@ -67,7 +50,7 @@ function InfoPokemon() {
         );
     }
 
-    // If the Pokémon doesn't exist, show an error message
+    // Si no hay datos de Pokémon después de la carga, muestra "Pokémon no encontrado"
     if (!pokemon) {
         return (
             <Container className="text-center py-5">
@@ -79,20 +62,27 @@ function InfoPokemon() {
         );
     }
 
-    // Display the Pokémon's information
+    // Solo muestra la información del Pokémon si los datos son válidos
     return (
         <Container className="py-5">
             <Card>
-                <Card.Header as="h5">Details of {pokemon.name}</Card.Header>
+                <Card.Header as="h5">Details of {pokemon?.name || "Unknown"}</Card.Header>
                 <Card.Body>
-                    <Card.Title>{pokemon.name}</Card.Title>
+                    <Card.Title>{pokemon?.name || "Unknown"}</Card.Title>
                     <Card.Text>
-                        <strong>Height:</strong> {pokemon.height} <br />
-                        <strong>Weight:</strong> {pokemon.weight} <br />
-                        <strong>Types:</strong> {pokemon.types.map((type) => type.name).join(', ')} <br />
-                        <strong>Abilities:</strong> {pokemon.abilities.map((ability) => ability.name).join(', ')}
+                        <strong>Height:</strong> {pokemon?.height || "N/A"} <br />
+                        <strong>Weight:</strong> {pokemon?.weight || "N/A"} <br />
+                        <strong>Types:</strong> 
+                        {pokemon?.types && pokemon.types.length > 0 
+                            ? pokemon.types.map((type) => type.name).join(', ') 
+                            : "No types available"} 
+                        <br />
+                        <strong>Abilities:</strong> 
+                        {pokemon?.abilities && pokemon.abilities.length > 0 
+                            ? pokemon.abilities.map((ability) => ability.name).join(', ') 
+                            : "No abilities available"}
                     </Card.Text>
-                    <img src={pokemon.image} alt={pokemon.name} style={{ width: '200px' }} />
+                    <img src={pokemon?.image} alt={pokemon?.name} style={{ width: '200px' }} />
                     <Link to="/">
                         <Button variant="primary" className="mt-3">Back to List</Button>
                     </Link>
