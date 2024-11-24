@@ -1,9 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Card, Spinner, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import { getTeam } from "../Services/TeamService";
-import { getPokemonById } from "../Services/PokemonService";
-import { evolvePokemonById } from "../Services/PokemonService";
+import React from 'react';
+import { Container, Row, Col, Card, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+
+import { getAllPokemons } from '../Services/PokemonService.js';
+import { evolvePokemonById } from '../Services/PokemonService.js';
+import { capturaPokemon } from '../Services/PokemonService.js';
+import { getPokemonById } from '../Services/PokemonService.js';
+import { getTeam } from '../Services/TeamService.js';
+
+import { Spinner } from 'react-bootstrap';
+
+
 
 function Llistat() {
     const [pokemonList, setPokemonList] = useState([]); // Holds all Pokémon (captured and uncaptured)

@@ -10,33 +10,44 @@ const AppNavbar = () => {
                     <Nav.Link as={Link} to="/captura" className="text-center">
                         <div className="d-flex flex-column align-items-center">
                             <img
-                                src="https://cdn-icons-png.flaticon.com/512/287/287221.png"
+                                src="/capture.png"
                                 alt="Captura"
-                                style={{ width: "30px", height: "24px" }}
+                                style={{ width: "30px", height: "30px" }}
                             />
-                            <span style={{ fontSize: "0.9rem" }}>Capture</span>
+                            <span style={{ fontSize: "1.2rem" }}>Capture</span>
                         </div>
                     </Nav.Link>
 
                     <Nav.Link as={Link} to="/llistat" className="text-center">
                         <div className="d-flex flex-column align-items-center">
                             <img
-                                src="https://cdn-icons-png.flaticon.com/512/188/188987.png"
+                                src="/pokemon-list.png"
                                 alt="Pokémons"
-                                style={{ width: "30px", height: "24px" }}
+                                style={{ width: "30px", height: "30px" }}
                             />
-                            <span style={{ fontSize: "0.9rem" }}>Pokémons</span>
+                            <span style={{ fontSize: "1.2rem" }}>Pokémons</span>
+                        </div>
+                    </Nav.Link>
+
+                    <Nav.Link as={Link} to="/zones" className="text-center">
+                        <div className="d-flex flex-column align-items-center">
+                            <img
+                                src="/location-pin.png"
+                                alt="Zones"
+                                style={{ width: "30px", height: "30px" }}
+                            />
+                            <span style={{ fontSize: "1.2rem" }}>Zones</span>
                         </div>
                     </Nav.Link>
 
                     <Nav.Link as={Link} to="/equips" className="text-center">
                         <div className="d-flex flex-column align-items-center">
                             <img
-                                src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png"
+                                src="/tournement.png"
                                 alt="Teams"
-                                style={{ width: "30px", height: "24px" }}
+                                style={{ width: "30px", height: "30px" }}
                             />
-                            <span style={{ fontSize: "0.9rem" }}>Teams</span>
+                            <span style={{ fontSize: "1.2rem" }}>Teams</span>
                         </div>
                     </Nav.Link>
                 </Nav>

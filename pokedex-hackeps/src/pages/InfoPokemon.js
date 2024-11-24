@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Container, Card, Button, Spinner } from 'react-bootstrap';
-import { getPokemonById } from '../Services/PokemonService'; // Asegúrate de que la ruta a pokemonService sea correcta
+import { getPokemonById } from '../Services/PokemonService.js'; // Asegúrate de que la ruta a pokemonService sea correcta
+import './pokemonInfo.css';
 
 function InfoPokemon() {
     const { nou, id } = useParams(); // Obtén el ID del Pokémon desde la URL
@@ -26,6 +27,8 @@ function InfoPokemon() {
                 setLoading(false);
             }
         };
+
+        fetchPokemon();
 
         fetchPokemon();
     }, [id]);
@@ -65,6 +68,7 @@ function InfoPokemon() {
     }
 
     // Solo muestra la información del Pokémon si los datos son válidos
+    // Solo muestra la información del Pokémon si los datos son válidos
     return (
         <Container className="py-5">
             <Card>
@@ -73,7 +77,19 @@ function InfoPokemon() {
             </Card.Header>
                 <Card.Body>
                     <Card.Title>{pokemon?.name || "Unknown"}</Card.Title>
+                    <Card.Title>{pokemon?.name || "Unknown"}</Card.Title>
                     <Card.Text>
+                        <strong>Height:</strong> {pokemon?.height || "N/A"} <br />
+                        <strong>Weight:</strong> {pokemon?.weight || "N/A"} <br />
+                        <strong>Types: </strong> 
+                        {pokemon?.types && pokemon.types.length > 0 
+                            ? pokemon.types.map((item) => item.type.name).join(', ') 
+                            : "No types available"} 
+                        <br />
+                        <strong>Abilities: </strong> 
+                        {pokemon?.abilities && pokemon.abilities.length > 0 
+                            ? pokemon.abilities.map((item) => item.ability.name).join(', ') 
+                            : "No abilities available"}
                         <strong>Height:</strong> {pokemon?.height || "N/A"} <br />
                         <strong>Weight:</strong> {pokemon?.weight || "N/A"} <br />
                         <strong>Types: </strong> 

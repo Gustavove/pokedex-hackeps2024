@@ -16,6 +16,7 @@ export const getPokemonById = async (id) => {
 }
 
 
+// Evolve a Pokémon by ID
 export const evolvePokemonById = async(id) => {
     try {
         const myPokemons = await getTeamPokemons();
@@ -37,34 +38,25 @@ export const evolvePokemonById = async(id) => {
 
 // Capture a Pokémon (immediate)
 export const capturaPokemon = async(idZona, team_id) => {
-    const response = await capturePokemon(idZona, team_id);
-    return response.data; // Return the response data from the event
+    return await capturePokemon(idZona, team_id).then(response=> {return response.json()}); // Return the response data from the event
+
 }
 
 // Capture Pokémon at intervals (automated)
-export const capturaPokemonTemps = (id, idZona, idEquip, temps, tempsAutomatitzacio) => {
-    let tokenIndex = 0; // Start with the first token
+export const capturaPokemonTemps = (zone_ids, idEquip, temps = temps*60, tiempoTotal = tiempoTotal*60*60) => {
+    zone_ids.forEach(idZona => {
+        const interval = setInterval(async () => {
+            try {
+                const response = await capturePokemon(idZona, idEquip);
+                const data = await response.json();
+                console.log("Captured Pokémon:", data);
+            } catch (error) {
+                console.error("Error capturing Pokémon:", error);
+            }
+        }, temps * 1000);
 
-    const tokens = Array.isArray(id) ? id : [id]; // Support single or multiple tokens
-
-    const runInterval = setInterval(async () => {
-        const currentToken = tokens[tokenIndex];
-        console.log(`Using token: ${currentToken}`);
-
-        try {
-            const result = await this.capturaPokemon(currentToken, idZona, idEquip);
-            console.log(`Capture result:`, result);
-        } catch (error) {
-            console.error("Error during automated capture:", error);
-        }
-
-        // Move to the next token in the list
-        tokenIndex = (tokenIndex + 1) % tokens.length;
-
-        // Clear the interval after the specified duration
-        if (tempsAutomatitzacio && new Date().getTime() > tempsAutomatitzacio) {
-            console.log("Automation duration expired. Stopping.");
-            clearInterval(runInterval);
-        }
-    }, temps); // Execute at the specified interval
-}
+        setTimeout(() => {
+            clearInterval(interval);
+        }, tiempoTotal * 1000);
+    });
+};

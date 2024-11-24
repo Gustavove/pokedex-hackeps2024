@@ -1,4 +1,3 @@
-
 export const getPokemons = async () => {
     const url = "https://hackeps-poke-backend.azurewebsites.net/pokemons";
     const response = fetch(url);
@@ -36,3 +35,5 @@ export const capturePokemon = async (zone_id, team_id) => {
     console.log(response)
     return response
 }
+
+
