@@ -43,11 +43,22 @@ const AppNavbar = () => {
                     <Nav.Link as={Link} to="/equips" className="text-center">
                         <div className="d-flex flex-column align-items-center">
                             <img
-                                src="/tournement.png"
+                                src="/group.png"
                                 alt="Teams"
                                 style={{ width: "30px", height: "30px" }}
                             />
                             <span style={{ fontSize: "1.2rem" }}>Teams</span>
+                        </div>
+                    </Nav.Link>
+
+                    <Nav.Link as={Link} to="/tournaments" className="text-center">
+                        <div className="d-flex flex-column align-items-center">
+                            <img
+                                src="/tournement.png"
+                                alt="tournaments"
+                                style={{ width: "30px", height: "30px" }}
+                            />
+                            <span style={{ fontSize: "1.2rem" }}>Tournaments</span>
                         </div>
                     </Nav.Link>
                 </Nav>
