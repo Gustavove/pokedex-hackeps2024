@@ -23,6 +23,19 @@ class PokemonService {
 
   // Fetch a Pokémon by ID
   async getPokemonById(id) {
+    if (id === "999") {
+      // Returning a dummy Pokémon with ID 999
+      return {
+        id: 999,
+        name: "DummyPikachu",
+        height: 0.6,
+        weight: 6.0,
+        types: [{ name: "Electric" }],
+        abilities: [{ name: "Static" }],
+        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png", // Placeholder image
+      };
+    }
+
     try {
       const pokemon = await pokemonGateway.getPokemonById(id);
       return pokemon;
@@ -31,7 +44,6 @@ class PokemonService {
       throw error;
     }
   }
-
   // Evolve a Pokémon by ID
   async evolvePokemonById(id) {
     try {
@@ -87,4 +99,4 @@ class PokemonService {
   }
 }
 
-export default new PokemonService(); // Export an instance of the service
+export default new PokemonService();
