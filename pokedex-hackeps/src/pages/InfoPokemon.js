@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Container, Card, Button, Spinner } from 'react-bootstrap';
-import { getPokemonById } from '../Services/PokemonService'; // Asegúrate de que la ruta a pokemonService sea correcta
+import { getPokemonById } from '../services/PokemonService'; // Asegúrate de que la ruta a pokemonService sea correcta
 
 function InfoPokemon() {
     const { nou, id } = useParams(); // Obtén el ID del Pokémon desde la URL
