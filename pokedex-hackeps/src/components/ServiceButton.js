@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Modal, Button, Row, Col } from "react-bootstrap";
-import { capturaPokemon } from "../Services/PokemonService";
+import { capturaPokemon } from "../services/PokemonService";
 import './ServiceButton.css'
 
 const ServiceButton = ({ qrData }) => {

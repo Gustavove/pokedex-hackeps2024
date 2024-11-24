@@ -1,7 +1,7 @@
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { getAllTeams } from '../Services/TeamService'; // Asegúrate de que la ruta a pokemonService sea correcta
+import { getAllTeams } from '../services/TeamService'; // Asegúrate de que la ruta a pokemonService sea correcta
 
 
 function Equips() {

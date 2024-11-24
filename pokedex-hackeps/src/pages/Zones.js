@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Container, Row, Col, Button, Card, Dropdown, DropdownButton } from "react-bootstrap";
 import zones from "../data/zonas.json";
-import { capturaPokemonTemps } from "../Services/PokemonService";
+import { capturaPokemonTemps } from "../services/PokemonService";
 
 const zonas = zones;
 

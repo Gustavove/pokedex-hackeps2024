@@ -6,6 +6,7 @@ import Layout from "../pages/Layout";
 import React from "react";
 import Captura from "../pages/Captura";
 import Zones from "../pages/Zones";
+import Tournaments from "../pages/Tournaments";
 const AppRoutes = () => {
     return (
         <Routes>
@@ -16,6 +17,7 @@ const AppRoutes = () => {
                 <Route path="/infoPokemon/:nou/:id" element={<InfoPokemon />} />
                 <Route path="/equips" element={<Equips />} />
                 <Route path="/zones" element={<Zones />} />
+                <Route path="/tournaments" element={<Tournaments />} />
             </Route>
         </Routes>
     );
