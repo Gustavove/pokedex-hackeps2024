@@ -87,7 +87,7 @@ function InfoPokemon() {
                             : "No abilities available"}
                     </Card.Text>
                     <img src={pokemon?.image} alt={pokemon?.name} style={{ width: '200px' }} />
-                    <Link to="/">
+                    <Link to="/llistat">
                         <Button variant="primary" className="mt-3">Back to List</Button>
                     </Link>
                 </Card.Body>

@@ -17,7 +17,6 @@ function Llistat() {
                 // Fetch detailed data for each Pokémon in the list
                 const pokemonDetails = await Promise.all(
                     pokemons["captured_pokemons"].map(async (item) => {
-                        const url = `http://localhost:3001/InfoPokemon/True/${item.pokemon_id}`;
                         const cardResponse = await getPokemonById(item.pokemon_id);
                         const pokemonDetail = await cardResponse.json();
                         return pokemonDetail; // Return the detailed data for each Pokémon
@@ -63,7 +62,7 @@ function Llistat() {
                                     <Card.Title>
                                         #{pokemon.id} {pokemon.name}  {/* Pokémon ID and name */}
                                     </Card.Title>
-                                    <Link to={`/pokemon/${pokemon.id}`}>
+                                    <Link to={`/infoPokemon/false/${pokemon.id}`}>
                                         <Button variant="primary">View Details</Button>
                                     </Link>
                                 </Card.Body>
