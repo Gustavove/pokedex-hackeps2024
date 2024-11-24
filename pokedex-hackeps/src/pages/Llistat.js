@@ -1,18 +1,37 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Card, Spinner, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { getTeam } from "../services/TeamService";
-import { getPokemonById } from "../services/PokemonService";
+import { getTeam } from "../Services/TeamService";
+import { getPokemonById } from "../Services/PokemonService";
+import { evolvePokemonById } from "../Services/PokemonService";
 
 function Llistat() {
     const [pokemonList, setPokemonList] = useState([]); // Holds all Pokémon (captured and uncaptured)
     const [loading, setLoading] = useState(true);       // Loading state for async operations
+    const [error, setError] = useState(null);  
+
+    const handleEvolve = async (id) => {
+        try {
+            const response = await evolvePokemonById(id);
+            console.log(response);
+            // Optionally update the state with the evolved Pokémon
+            setPokemonList((prevList) =>
+                prevList.map((pokemon) =>
+                    pokemon.id === id ? { ...pokemon, ...response } : pokemon
+                )
+            );
+            window.location.reload();
+        } catch (error) {
+            console.error("Error evolving Pokémon:", error);
+            setError("Error evolving Pokémon.");
+        }
+    };
 
     useEffect(() => {
         const fetchPokemon = async () => {
             try {
                 // Fetch captured Pokémon
-                const pokemons = await getTeam().then((response) => response.json());
+                const pokemons = await getTeam();
                 console.log("Fetched pokemons:", pokemons["captured_pokemons"]);
 
                 // Create an object to count occurrences of each captured Pokémon
@@ -36,6 +55,7 @@ function Llistat() {
                                 name: pokemonDetail.name,
                                 image: pokemonDetail.image || null, // Sprite or null
                                 count: pokemonCount[pokemonId] || 0, // Capture count
+                                evolves_to: pokemonDetail.evolves_to,
                             };
                         } catch (error) {
                             // If fetch fails, create a placeholder for the missing Pokémon
@@ -115,9 +135,11 @@ function Llistat() {
                                     )}
                                 </Card.Text>
                                 {pokemon.count > 0 && ( // Only show the "View Details" button for captured Pokémon
-                                    <Link to={`/infoPokemon/false/${pokemon.id}`}>
+                                    <><Link to={`/infoPokemon/false/${pokemon.id}`}>
                                         <Button variant="primary">View Details</Button>
-                                    </Link>
+                                    </Link><Button variant="secondary" disabled={!pokemon.evolves_to || pokemon.count < 3} onClick={() => handleEvolve(pokemon.id)}>
+                                            Evolve
+                                    </Button></>
                                 )}
                             </Card.Body>
                         </Card>
