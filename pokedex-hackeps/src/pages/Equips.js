@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 function Equips() {
     // Datos simulados
     const items = [
-        { id: 1, name: 'Item 1', description: 'Descripción breve del Item 1' },
+        { id: 1, name: 'Item 1', description: 'Hola' },
         { id: 2, name: 'Item 2', description: 'Descripción breve del Item 2' },
         { id: 3, name: 'Item 3', description: 'Descripción breve del Item 3' },
     ];
