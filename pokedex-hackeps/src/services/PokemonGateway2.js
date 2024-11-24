@@ -1,7 +1,4 @@
-<<<<<<< HEAD:pokedex-hackeps/src/Services/PokemonGateway2.js
 import { getTeam } from "./TeamService";
-=======
->>>>>>> origin/test:pokedex-hackeps/src/services/PokemonGateway2.js
 
 export const getPokemons = async () => {
     const url = "https://hackeps-poke-backend.azurewebsites.net/pokemons";
