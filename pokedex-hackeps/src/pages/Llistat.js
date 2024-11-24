@@ -1,15 +1,13 @@
-import React from 'react';
-import { Container, Row, Col, Card, Button } from 'react-bootstrap';
+import { Container, Row, Col, Card, Spinner, Button } from "react-bootstrap";
+import { getPokemonById } from "../Services/PokemonService";
+import { evolvePokemonById } from "../Services/PokemonService";
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
 import { getAllPokemons } from '../Services/PokemonService.js';
-import { evolvePokemonById } from '../Services/PokemonService.js';
 import { capturaPokemon } from '../Services/PokemonService.js';
-import { getPokemonById } from '../Services/PokemonService.js';
 import { getTeam } from '../Services/TeamService.js';
 
-import { Spinner } from 'react-bootstrap';
 
 
 
@@ -112,7 +110,7 @@ function Llistat() {
                                     variant="top"
                                     src={pokemon.image} // Sprite for captured Pokémon
                                     alt={pokemon.name}
-                                    style={{ width: "100%", height: "200px", objectFit: "contain" }}
+                                    style={{ width: "100%", height: "150px", objectFit: "scale-down" }}
                                 />
                             ) : (
                                 <div
