@@ -34,6 +34,11 @@ export const capturaPokemon = async(idZona, team_id) => {
 }
 
 // Capture Pokémon at intervals (automated)
-export const capturaPokemonTemps = (id, idZona, idEquip, temps, tempsAutomatitzacio) => {
-  return capturePokemonByTime(id, idZona, idEquip, temps, tempsAutomatitzacio);
+export const capturaPokemonTemps = (zone_ids, idEquip, temps) => {
+    zone_ids.forEach(idZona => {
+        setInterval(() => {
+            capturePokemon(idZona, idEquip);
+            console.log("setting interval for time:", temps * 10)
+        }, temps * 10)
+    });
 }
