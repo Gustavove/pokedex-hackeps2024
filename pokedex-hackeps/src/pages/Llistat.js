@@ -5,40 +5,53 @@ import { getTeam } from "../services/TeamService";
 import { getPokemonById } from "../services/PokemonService";
 
 function Llistat() {
-    const [pokemonList, setPokemonList] = useState([]);  // Holds the list of unique Pokémon with counts
-    const [loading, setLoading] = useState(true);         // Loading state for async operations
+    const [pokemonList, setPokemonList] = useState([]); // Holds all Pokémon (captured and uncaptured)
+    const [loading, setLoading] = useState(true);       // Loading state for async operations
 
     useEffect(() => {
         const fetchPokemon = async () => {
             try {
-                const pokemons = await getTeam().then(response => response.json()); // Fetch Pokémon from the service
-                console.log("Fetched pokemons:", pokemons["captured_pokemons"]); // Debugging output
+                // Fetch captured Pokémon
+                const pokemons = await getTeam().then((response) => response.json());
+                console.log("Fetched pokemons:", pokemons["captured_pokemons"]);
 
-                // Create an object to count occurrences of each Pokémon
+                // Create an object to count occurrences of each captured Pokémon
                 const pokemonCount = {};
-                pokemons["captured_pokemons"].forEach(item => {
+                pokemons["captured_pokemons"].forEach((item) => {
                     if (pokemonCount[item.pokemon_id]) {
-                        pokemonCount[item.pokemon_id] += 1;  // Increment count if the Pokémon already exists
+                        pokemonCount[item.pokemon_id] += 1; // Increment count
                     } else {
-                        pokemonCount[item.pokemon_id] = 1;   // Set count to 1 if it's the first occurrence
+                        pokemonCount[item.pokemon_id] = 1;  // Initialize count
                     }
                 });
 
-                // Get unique Pokémon data with their capture count
-                const pokemonDetails = await Promise.all(
-                    Object.keys(pokemonCount).map(async (pokemonId) => {
-                        const cardResponse = await getPokemonById(pokemonId);
-                        const pokemonDetail = await cardResponse.json();
-                        return {
-                            ...pokemonDetail,      // Include all the details fetched from API
-                            count: pokemonCount[pokemonId],  // Add capture count
-                        };
+                // Fetch Pokémon data for IDs 1 to 152 (including missing ones)
+                const allPokemons = await Promise.all(
+                    Array.from({ length: 152 }, (_, i) => i + 1).map(async (pokemonId) => {
+                        try {
+                            const cardResponse = await getPokemonById(pokemonId);
+                            const pokemonDetail = await cardResponse.json();
+                            return {
+                                id: pokemonDetail.id,
+                                name: pokemonDetail.name,
+                                image: pokemonDetail.image || null, // Sprite or null
+                                count: pokemonCount[pokemonId] || 0, // Capture count
+                            };
+                        } catch (error) {
+                            // If fetch fails, create a placeholder for the missing Pokémon
+                            return {
+                                id: pokemonId,
+                                name: "Unknown",
+                                image: null,
+                                count: 0,
+                            };
+                        }
                     })
                 );
 
-                console.log("Pokemon Details:", pokemonDetails);  // Log details for debugging
-                setPokemonList(pokemonDetails);  // Set the detailed Pokémon data with counts in state
-                setLoading(false);  // Set loading to false once data is fetched
+                console.log("All Pokemon Details:", allPokemons);
+                setPokemonList(allPokemons); // Set the Pokémon list (captured + placeholders)
+                setLoading(false);           // Stop loading spinner
             } catch (error) {
                 console.error("Error fetching Pokémon list:", error);
                 setLoading(false);
@@ -46,7 +59,7 @@ function Llistat() {
         };
 
         fetchPokemon();
-    }, []);  // Empty dependency array to run this effect only once when the component mounts
+    }, []); // Empty dependency array to run this effect once
 
     if (loading) {
         return (
@@ -56,36 +69,58 @@ function Llistat() {
             </Container>
         );
     }
-
+    console.log(pokemonList);
     return (
         <Container className="py-5">
             <h1 className="text-center mb-4">Pokédex</h1>
             <Row>
                 {/* Map over pokemonList and render each Pokémon as a card */}
-                {Array.isArray(pokemonList) &&
-                    pokemonList.map((pokemon) => (
-                        <Col xs={6} md={4} lg={3} key={pokemon.id} className="mb-4">
-                            <Card className="h-100">
-                                {/* Check if sprite exists and fallback to placeholder image */}
+                {pokemonList.map((pokemon) => (
+                    <Col xs={6} md={4} lg={3} key={pokemon.id} className="mb-4">
+                        <Card className="h-100">
+                            {/* Conditionally render Pokémon image or ID placeholder */}
+                            {pokemon.count > 0 ? (
                                 <Card.Img
                                     variant="top"
-                                    src={pokemon.image}  // Fallback if sprite is missing
-                                    alt={pokemon.name}    // Pokémon name
+                                    src={pokemon.image} // Sprite for captured Pokémon
+                                    alt={pokemon.name}
+                                    style={{ width: "100%", height: "200px", objectFit: "contain" }} // Scale properly
                                 />
-                                <Card.Body className="text-center">
-                                    <Card.Title>
-                                        #{pokemon.id} {pokemon.name}  {/* Pokémon ID and name */}
-                                    </Card.Title>
-                                    <Card.Text>
-                                        Captured: {pokemon.count} times {/* Pokémon capture count */}
-                                    </Card.Text>
-                                    <Link to={`/infoPokemon/false/${pokemon.id}`}>
-                                        <Button variant="primary">View Details</Button>
-                                    </Link>
-                                </Card.Body>
-                            </Card>
-                        </Col>
-                    ))}
+                            ) : (
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        height: "200px",
+                                        fontSize: "3rem",
+                                        fontWeight: "bold",
+                                        color: "#ccc",
+                                        backgroundColor: "#f7f7f7",
+                                        border: "1px dashed #ccc",
+                                    }}
+                                >
+                                    #{pokemon.id} {/* ID for uncaptured Pokémon */}
+                                </div>
+                            )}
+                            <Card.Body className="text-center">
+                                <Card.Title>
+                                    #{pokemon.id} {pokemon.name !== "Unknown" ? pokemon.name : ""} {/* ID and name */}
+                                </Card.Title>
+                                <Card.Text>
+                                    {pokemon.count > 0 ? (
+                                        <span>Captured: {pokemon.count} times</span> // Show capture count
+                                    ) : (
+                                        <span>Not Captured</span> // Indicate uncaptured Pokémon
+                                    )}
+                                </Card.Text>
+                                <Link to={`/infoPokemon/false/${pokemon.id}`}>
+                                    <Button variant="primary">View Details</Button>
+                                </Link>
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                ))}
             </Row>
         </Container>
     );
