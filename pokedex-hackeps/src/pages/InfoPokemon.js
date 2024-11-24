@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Container, Card, Button, Spinner, Table } from 'react-bootstrap';
-import { getPokemonById } from '../Services/PokemonService';
+import { getPokemonById } from '../services/PokemonService';
 import { Radar } from 'react-chartjs-2';
 import { Chart as ChartJS, RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend } from 'chart.js';
 
