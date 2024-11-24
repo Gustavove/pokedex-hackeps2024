@@ -19,8 +19,8 @@ const Captura = () => {
     return (
         <Container className="my-4">
             <h1 className="text-center">📍 Zone Scanner</h1>
-            <Row className="mt-4">
-                <Col>
+            <Row className="mt-4 justify-content-center">
+                <Col md={6} lg={4}>
                     <Card>
                         <Card.Header>
                         Scan the QR of your zone here :)

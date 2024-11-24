@@ -142,7 +142,7 @@ function Llistat() {
                                 </Card.Text>
                                 {pokemon.count > 0 && ( // Only show the "View Details" button for captured Pokémon
                                     <><Link to={`/infoPokemon/false/${pokemon.id}`}>
-                                        <Button variant="primary">View Details</Button>
+                                        <Button  style={{ backgroundColor: "#FC5350", color: "#fff", border: "none" }}>View Details</Button>
                                     </Link><Button variant="secondary" disabled={!pokemon.evolves_to || pokemon.count < 3} onClick={() => handleEvolve(pokemon.id)}>
                                             Evolve
                                     </Button></>

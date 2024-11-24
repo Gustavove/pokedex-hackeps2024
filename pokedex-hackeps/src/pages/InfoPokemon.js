@@ -274,12 +274,12 @@ function InfoPokemon() {
                     </div>
 
                     {/* Sound Button */}
-                    <Button variant="success" onClick={playSound} className="mt-3">
+                    <Button style={{ backgroundColor: "#FC5350", color: "#fff", border: "none"}} onClick={playSound} className="mt-3">
                         Play Sound
                     </Button>
 
                     <Link to="/llistat">
-                        <Button variant="primary" className="mt-3">
+                        <Button style={{ backgroundColor: "#46CFB1", color: "#fff", border: "none"}} className="mt-3">
                             Back to List
                         </Button>
                     </Link>

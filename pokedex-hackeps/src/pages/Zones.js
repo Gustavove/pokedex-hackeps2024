@@ -54,6 +54,7 @@ function Zones() {
                                 <Card.Text>UUID: {zona.uuid}</Card.Text>
 
                                 <DropdownButton
+                                    variant="danger"
                                     id={`dropdown-time-${zona.id}`}
                                     title={timeSettings[zona.id]?.time || "Choose time"}
                                     className="mb-2"
@@ -70,6 +71,7 @@ function Zones() {
                                 </DropdownButton>
 
                                 <DropdownButton
+                                variant="light"
                                     id={`dropdown-interval-${zona.id}`}
                                     title={timeSettings[zona.id]?.interval || "Choose interval"}
                                     className="mb-2"
@@ -86,7 +88,7 @@ function Zones() {
                                 </DropdownButton>
 
                                 <Button
-                                    variant="primary"
+                                    variant="secondary"
                                     onClick={() => handleAutomatizeCapture(zona.id)}
                                     className="w-100"
                                 >
