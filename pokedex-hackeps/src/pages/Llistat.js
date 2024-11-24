@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { getAllPokemons } from '../services/PokemonService';
-import { getPokemonById } from '../services/PokemonService';
+import { capturaPokemon } from '../services/PokemonService';
 
 const Llistat = () => {
     const items = [
@@ -17,9 +17,9 @@ const Llistat = () => {
         });
     };
 
-    const handleButtonClick2 = () => {
-        getPokemonById(152).then((pokemons) => {
-            console.log(pokemons.json());
+    const handleButtonClick2 = () => { // he posat una zona d'exemple
+        capturaPokemon("67372c61f269e28d2f86f063", "28620274-0860-416a-baee-4ae42f8623fd").then((pokemons) => {
+            console.log(pokemons);
         });
     };
 
