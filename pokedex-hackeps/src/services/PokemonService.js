@@ -1,8 +1,4 @@
-import { getPokemons } from './PokemonGateway2.js';
-import { getById } from './PokemonGateway2.js';
-import { evolveById } from './PokemonGateway2.js';
-import { capturePokemon } from './PokemonGateway2.js';
-import { capturePokemonByTime } from './PokemonGateway2.js';
+import {capturePokemon, evolveById, getById, getPokemons} from './PokemonGateway2.js';
 
 const BASE_URL = "https://hackeps-poke-backend.azurewebsites.net/events/";
 
@@ -29,8 +25,8 @@ export const evolvePokemonById = async(id) => {
 
 // Capture a Pokémon (immediate)
 export const capturaPokemon = async(idZona, team_id) => {
-    const response = await capturePokemon(idZona, team_id);
-    return response.data; // Return the response data from the event
+    return await capturePokemon(idZona, team_id).then(response=> {return response.json()}); // Return the response data from the event
+
 }
 
 // Capture Pokémon at intervals (automated)

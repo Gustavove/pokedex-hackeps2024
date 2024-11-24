@@ -1,8 +1,8 @@
 import React from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { getAllPokemons } from '../Services/PokemonService';
-import { capturaPokemon } from '../Services/PokemonService';
+import { getAllPokemons } from '../services/PokemonService';
+import { capturaPokemon } from '../services/PokemonService';
 
 const Llistat = () => {
     const items = [
