@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { QrReader } from "react-qr-reader";
 
 const QRScanner = ({onScanResult}) => {
-    const [data, setData] = useState("No se ha detectado ningún ID");
+    const [data, setData] = useState("No ID has been detected");
     const [lastData, setLastData] = useState(""); // Estado para rastrear el último código leído
 
     const handleScan = (result) => {
@@ -10,7 +10,7 @@ const QRScanner = ({onScanResult}) => {
             const extractedId = result.text.split("/").pop();
 
             if (extractedId !== lastData) {
-                setData(extractedId || "No se encontró un ID válido");
+                setData(extractedId || "No valid ID was found");
                 setLastData(extractedId);
                 onScanResult(extractedId);
             }
@@ -28,7 +28,8 @@ const QRScanner = ({onScanResult}) => {
                 style={{ width: "100%" }}
                 constraints={{ facingMode: "environment" }} // Cámara trasera
             />
-            <p>Id de la zona: {data}</p>
+            <p>ID of the zone:</p>
+            <p>{data}</p>
         </div>
     );
 };

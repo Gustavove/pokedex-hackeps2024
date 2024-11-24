@@ -1,7 +1,7 @@
-import { getPokemons } from '../Services/PokemonGateway2.js';
-import { getById } from '../Services/PokemonGateway2.js';
-import { evolveById } from '../Services/PokemonGateway2.js';
-import { capturePokemon } from '../Services/PokemonGateway2.js';
+import { getPokemons } from '../services/PokemonGateway2.js';
+import { getById } from '../services/PokemonGateway2.js';
+import { evolveById } from '../services/PokemonGateway2.js';
+import { capturePokemon } from '../services/PokemonGateway2.js';
 import { getTeam, getTeamPokemons } from './TeamService.js';
 
 const BASE_URL = "https://hackeps-poke-backend.azurewebsites.net/events/";
