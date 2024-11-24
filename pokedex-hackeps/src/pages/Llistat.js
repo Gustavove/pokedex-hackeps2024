@@ -1,50 +1,65 @@
-import React from 'react';
-import { Container, Row, Col, Card, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import { getAllPokemons } from '../Services/PokemonService';
-import { capturaPokemon } from '../Services/PokemonService';
+import React, { useEffect, useState } from "react";
+import { Container, Row, Col, Card, Spinner, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { getAllPokemons } from "../services/PokemonService";
+import { getTeam } from "../services/TeamService";
 
-const Llistat = () => {
-    const items = [
-        { id: 1, name: 'Item 1', description: 'Descripción breve del Item 1' },
-        { id: 2, name: 'Item 2', description: 'Descripción breve del Item 2' },
-        { id: 3, name: 'Item 3', description: 'Descripción breve del Item 3' },
-    ];
+function Llistat() {
+    const [pokemonList, setPokemonList] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    const handleButtonClick = () => {
-        getAllPokemons().then((pokemons) => {
-            console.log(pokemons.json());
-        });
-    };
+    useEffect(() => {
+        const fetchPokemon = async () => {
+            try {
+                const pokemons = await getTeam().then(respone => {
+                    return Response.json()
+                }); // Fetch Pokémon from the service
+                console.log("Fetched pokemons:", pokemons); // Debugging output
+                setPokemonList(pokemons);
+                setLoading(false);
+            } catch (error) {
+                console.error("Error fetching Pokémon list:", error);
+                setLoading(false);
+            }
+        };
 
-    const handleButtonClick2 = () => { // he posat una zona d'exemple
-        capturaPokemon("67372c61f269e28d2f86f063", "28620274-0860-416a-baee-4ae42f8623fd").then((pokemons) => {
-            console.log(pokemons);
-        });
-    };
+        fetchPokemon();
+    }, []);
+
+    if (loading) {
+        return (
+            <Container className="text-center py-5">
+                <Spinner animation="border" variant="primary" />
+                <p>Loading Pokédex...</p>
+            </Container>
+        );
+    }
 
     return (
         <Container className="py-5">
-            <h1 className="text-center mb-4">Listado de Elementos</h1>
-            <Row className="g-4">
-                {items.map((item) => (
-                    <Col key={item.id} xs={12} md={6} lg={4}>
-                        <Card>
-                            <Card.Body>
-                                <Card.Title>{item.name}</Card.Title>
-                                <Card.Text>{item.description}</Card.Text>
-                                <Link to={`/item/${item.id}`}>
-                                    <Button variant="primary">Ver Detalles</Button>
-                                </Link>
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                ))}
+            <h1 className="text-center mb-4">Pokédex</h1>
+            <Row>
+                {Array.isArray(pokemonList) &&
+                    pokemonList.map((pokemon) => (
+                        <Col xs={6} md={4} lg={3} key={pokemon.id} className="mb-4">
+                            <Card className="h-100">
+                                <Card.Img
+                                    variant="top"
+                                    src={pokemon.image}
+                                    alt={pokemon.name}
+                                />
+                                <Card.Body className="text-center">
+                                    <Card.Title>
+                                        #{pokemon.id} {pokemon.name}
+                                    </Card.Title>
+                                    <Link to={`/pokemon/${pokemon.id}`}>
+                                        <Button variant="primary">View Details</Button>
+                                    </Link>
+                                </Card.Body>
+                            </Card>
+                        </Col>
+                    ))}
             </Row>
-            <div className="text-center mt-4">
-            <Button variant="secondary" onClick={handleButtonClick}>Nuevo Botón</Button>
-            <Button variant="secondary" onClick={handleButtonClick2}>Nuevo Botón</Button>
-            </div>
         </Container>
     );
 }

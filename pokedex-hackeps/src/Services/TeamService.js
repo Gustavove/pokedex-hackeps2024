@@ -1,4 +1,4 @@
-import { getById, getTeams } from '../Services/TeamGateway.js';
+import { getById, getTeams } from '../services/TeamGateway.js';
 
 export const getAllTeams = async () => {
     return await getTeams();
