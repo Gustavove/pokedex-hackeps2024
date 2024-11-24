@@ -68,7 +68,9 @@ function InfoPokemon() {
     return (
         <Container className="py-5">
             <Card>
-                <Card.Header as="h5">Details of {pokemon?.name || "Unknown"}</Card.Header>
+            <Card.Header as="h5">
+            {nou === 'true' ? `New Pokémon Unlocked!: ${pokemon?.name || "Unknown"}` : `Details of ${pokemon?.name || "Unknown"}`}
+            </Card.Header>
                 <Card.Body>
                     <Card.Title>{pokemon?.name || "Unknown"}</Card.Title>
                     <Card.Text>
