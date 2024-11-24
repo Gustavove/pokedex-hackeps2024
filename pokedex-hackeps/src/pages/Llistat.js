@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Card, Spinner, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { getAllPokemons } from "../services/PokemonService";
 import { getTeam } from "../services/TeamService";
 
 function Llistat() {
@@ -11,10 +10,18 @@ function Llistat() {
     useEffect(() => {
         const fetchPokemon = async () => {
             try {
-                const pokemons = await getTeam().then(respone => {
-                    return Response.json()
+                const pokemons = await getTeam().then(response => {
+                    return response.json()
                 }); // Fetch Pokémon from the service
-                console.log("Fetched pokemons:", pokemons); // Debugging output
+                console.log("Fetched pokemons:", pokemons["captured_pokemons"]); // Debugging output
+                const pokemon_cards = await Promise.all(
+                    pokemons["captured_pokemons"].map(async (item) => {
+                        const url = `http://localhost:3001/InfoPokemon/True/${item.pokemon_id}`;
+                        const cardResponse = await fetch(url); // Fetch Pokémon details
+                        return cardResponse; // Parse the response
+                    })
+                );
+                console.log(pokemon_cards)
                 setPokemonList(pokemons);
                 setLoading(false);
             } catch (error) {
