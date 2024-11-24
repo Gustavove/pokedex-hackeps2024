@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Card, Spinner, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { getTeam } from "../services/TeamService";
-import { getPokemonById } from "../services/PokemonService";
+import { getTeam } from "../Services/TeamService";
+import { getPokemonById } from "../Services/PokemonService";
 
 function Llistat() {
     const [pokemonList, setPokemonList] = useState([]); // Holds all Pokémon (captured and uncaptured)
