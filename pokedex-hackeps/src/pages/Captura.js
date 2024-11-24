@@ -12,6 +12,7 @@ const Captura = () => {
 
     // Maneja el resultado del escaneo y lo guarda en el estado
     const handleScanResult = (result) => {
+        console.log(qrData)
         setQrData(result);
     };
 
