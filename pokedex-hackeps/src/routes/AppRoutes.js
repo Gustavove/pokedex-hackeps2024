@@ -12,7 +12,7 @@ const AppRoutes = () => {
                 <Route index element={<Captura />} />
                 <Route path="/captura" element={<Captura />} />
                 <Route path="/llistat" element={<Llistat />} />
-                <Route path="/infoPokemon/:id" element={<InfoPokemon />} />
+                <Route path="/infoPokemon/:nou/:id" element={<InfoPokemon />} />
                 <Route path="/equips" element={<Equips />} />
             </Route>
         </Routes>
