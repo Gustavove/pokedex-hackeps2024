@@ -1,4 +1,4 @@
-import pokemonService from "./pokemonService.js";
+import pokemonService from "./PokemonService.js";
 
 
 async function testCapturaPokemon() {

@@ -1,40 +1,34 @@
 import React, { useState } from "react";
 import { QrReader } from "react-qr-reader";
 
-const QRScanner = () => {
-    const [data, setData] = useState("No ha detectado el QR");
-    const [error, setError] = useState("");
+const QRScanner = ({onScanResult}) => {
+    const [data, setData] = useState("No se ha detectado ningún ID");
+    const [lastData, setLastData] = useState(""); // Estado para rastrear el último código leído
 
     const handleScan = (result) => {
-        if (result) {
-            setData(result.text); // Almacena el texto del QR
-            setError(""); // Limpia errores previos
-        }
-    };
+        if (result?.text) {
+            const extractedId = result.text.split("/").pop();
 
-    const handleError = (err) => {
-        console.error("Error al escanear:", err);
-        setError("Error al intentar leer el QR.");
+            if (extractedId !== lastData) {
+                setData(extractedId || "No se encontró un ID válido");
+                setLastData(extractedId);
+                onScanResult(extractedId);
+            }
+        }
     };
 
     return (
         <div style={{ textAlign: "center" }}>
-            <h2>QR Scanner</h2>
             <QrReader
-                onResult={(result, error) => {
-                    if (!!result) {
+                onResult={(result) => {
+                    if (result?.text) {
                         handleScan(result);
-                    }
-
-                    if (!!error) {
-                        handleError(error);
                     }
                 }}
                 style={{ width: "100%" }}
                 constraints={{ facingMode: "environment" }} // Cámara trasera
             />
-            <p>Resultado: {data}</p>
-            {error && <p style={{ color: "red" }}>{error}</p>}
+            <p>Id de la zona: {data}</p>
         </div>
     );
 };
