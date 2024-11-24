@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Container, Card, Button, Spinner } from 'react-bootstrap';
-import PokemonService from '../Services/pokemonService'; // Ensure the path to pokemonService is correct
+import {getPokemonById} from '../Services/PokemonService'; // Ensure the path to pokemonService is correct
 
 const dummyPokemon = {
     id: 1,
@@ -32,7 +32,8 @@ function InfoPokemon() {
         const fetchPokemon = async () => {
             try {
                 setLoading(true);
-                const data = await PokemonService.getPokemonById(id);
+                const data = await getPokemonById(id);
+                console.log(data);
                 setPokemon(data);
                 setLoading(false);
             } catch (error) {
@@ -40,9 +41,9 @@ function InfoPokemon() {
                 setLoading(false);
             }
         };
-
-        fetchPokemon();
     }, [id]);
+
+
 
     // Show a loading spinner while data is being fetched
     if (loading) {
