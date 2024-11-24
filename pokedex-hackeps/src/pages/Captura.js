@@ -22,7 +22,7 @@ const Captura = () => {
             <Row className="mt-4 justify-content-center">
                 <Col md={6} lg={4}>
                     <Card>
-                        <Card.Header>
+                        <Card.Header className="text-center">
                         Scan the QR of your zone here :)
                         </Card.Header>
                         <Card.Body>
