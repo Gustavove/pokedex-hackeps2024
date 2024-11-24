@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Container, Card, Button, Spinner } from 'react-bootstrap';
 import { getPokemonById } from '../services/PokemonService'; // Asegúrate de que la ruta a pokemonService sea correcta
+import './pokemonInfo.css';
 
 function InfoPokemon() {
     const { nou, id } = useParams(); // Obtén el ID del Pokémon desde la URL
@@ -69,7 +70,7 @@ function InfoPokemon() {
         <Container className="py-5">
             <Card>
             <Card.Header as="h5">
-            {nou === 'true' ? `New Pokémon Unlocked!: ${pokemon?.name || "Unknown"}` : `Details of ${pokemon?.name || "Unknown"}`}
+            {nou === 'true' ? `New Pokémon Unlocked!` : `Details of ${pokemon?.name || "Unknown"}`}
             </Card.Header>
                 <Card.Body>
                     <Card.Title>{pokemon?.name || "Unknown"}</Card.Title>

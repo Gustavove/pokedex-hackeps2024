@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Modal, Button, Row, Col } from "react-bootstrap";
 import { capturaPokemon } from "../services/PokemonService";
+import './ServiceButton.css'
 
 const ServiceButton = ({ qrData }) => {
     const [loading, setLoading] = useState(false);
@@ -16,7 +17,7 @@ const ServiceButton = ({ qrData }) => {
                 const response = await capturaPokemon(qrData, "28620274-0860-416a-baee-4ae42f8623fd");
 
                 if (response.detail) {
-                    setModalMessage("No se puede obtener un Pokémon en estos momentos");
+                    setModalMessage("A Pokémon cannot be obtained at this moment...");
                     setShowModal(true);
                     return;
                 }
@@ -27,32 +28,32 @@ const ServiceButton = ({ qrData }) => {
                 if (capturedPokemon && firstPokemon) {
                     navigate(`/infoPokemon/true/${firstPokemon}`);
                 } else {
-                    setModalMessage("La respuesta no contiene datos suficientes");
+                    setModalMessage("The response does not contain enough information");
                     setShowModal(true);
                 }
             } catch (error) {
                 console.error("Error al llamar al servicio:", error);
-                setModalMessage("Ocurrió un error inesperado");
+                setModalMessage("An unexpected error occured");
                 setShowModal(true);
             } finally {
                 setLoading(false);
             }
         } else {
-            alert("Es necesario obtener el ID de la zona");
+            alert("You must obtain the ID of your zone");
         }
     };
 
     return (
         <>
             <Row className="mt-3">
-                <Col>
+                <Col xs={6} md={4} className="mx-auto">
                     <Button
                         onClick={handleClick}
                         disabled={loading || !qrData}
-                        variant="primary"
+                        variant="danger"
                         className="w-100"
                     >
-                        {loading ? "Cargando..." : "Capturar"}
+                        {loading ? "Loading..." : "Capture"}
                     </Button>
                 </Col>
             </Row>
@@ -60,12 +61,12 @@ const ServiceButton = ({ qrData }) => {
             {/* Modal para mostrar mensajes */}
             <Modal show={showModal} onHide={() => setShowModal(false)}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Información</Modal.Title>
+                    <Modal.Title>Info</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>{modalMessage}</Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={() => setShowModal(false)}>
-                        Cerrar
+                        Close
                     </Button>
                 </Modal.Footer>
             </Modal>
