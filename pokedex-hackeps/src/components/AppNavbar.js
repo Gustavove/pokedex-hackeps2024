@@ -29,10 +29,21 @@ const AppNavbar = () => {
                         </div>
                     </Nav.Link>
 
+                    <Nav.Link as={Link} to="/zones" className="text-center">
+                        <div className="d-flex flex-column align-items-center">
+                            <img
+                                src="https://cdn-icons-png.flaticon.com/512/535/535137.png"
+                                alt="Zones"
+                                style={{ width: "30px", height: "24px" }}
+                            />
+                            <span style={{ fontSize: "0.9rem" }}>Zones</span>
+                        </div>
+                    </Nav.Link>
+
                     <Nav.Link as={Link} to="/equips" className="text-center">
                         <div className="d-flex flex-column align-items-center">
                             <img
-                                src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png"
+                                src="https://cdn-icons-png.flaticon.com/512/7829/7829198.png"
                                 alt="Teams"
                                 style={{ width: "30px", height: "24px" }}
                             />
