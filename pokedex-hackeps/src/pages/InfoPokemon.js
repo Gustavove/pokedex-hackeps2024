@@ -8,10 +8,34 @@ import { Chart as ChartJS, RadialLinearScale, PointElement, LineElement, Filler,
 // Registering the chart components
 ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend);
 
+// Pokémon Types to Emoji mapping
+const typeEmojis = {
+    bug: "🦟",
+    dark: "🌑",
+    dragon: "🐉",
+    electric: "⚡",
+    fairy: "🧚‍♀️",
+    fighting: "🥊",
+    fire: "🔥",
+    flying: "🕊️",
+    ghost: "👻",
+    grass: "🌿",
+    ground: "🌍",
+    ice: "❄️",
+    normal: "⚪",
+    poison: "☠️",
+    psychic: "🧠",
+    rock: "🪨",
+    steel: "⚙️",
+    water: "💧",
+};
+
 function InfoPokemon() {
     const { nou, id } = useParams(); // Get Pokémon ID from URL
     const [pokemon, setPokemon] = useState(null);
     const [moves, setMoves] = useState([]); // To store move details
+    const [evolutionChain, setEvolutionChain] = useState(null); // To store evolution chain
+    const [locations, setLocations] = useState([]); // To store location encounter details
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -53,6 +77,37 @@ function InfoPokemon() {
                     );
                     setMoves(moveDetails);
                 }
+
+                // Fetch the evolution chain data
+                if (parsedData.species && parsedData.species.url) {
+                    const speciesResponse = await fetch(parsedData.species.url);
+                    const speciesData = await speciesResponse.json();
+                    if (speciesData.evolution_chain) {
+                        const evolutionResponse = await fetch(speciesData.evolution_chain.url);
+                        const evolutionData = await evolutionResponse.json();
+                        setEvolutionChain(evolutionData.chain);
+                    }
+                }
+
+                // Fetch location encounters if they exist
+                if (parsedData.location_area_encounters && parsedData.location_area_encounters.length > 0) {
+                    const locationDetails = await Promise.all(
+                        parsedData.location_area_encounters.map(async (locationId) => {
+                            try {
+                                const locationURL = "https://hackeps-poke-backend.azurewebsites.net/zones/" + locationId;
+                                const response = await fetch(locationURL);
+                                const locationData = await response.json();
+                                return locationData.name;
+                            } catch (err) {
+                                console.error("Location fetch error:", err);
+                                return { error: "Location details not available" };
+                            }
+                        })
+                    );
+                    console.log(locationDetails);
+                    setLocations(locationDetails);
+                }
+
             } catch (err) {
                 console.error("Error fetching Pokémon information:", err);
                 setError(`Error: ${err.message || "Unknown error occurred."}`);
@@ -61,8 +116,6 @@ function InfoPokemon() {
             }
         };
     
-        fetchPokemon();
-
         fetchPokemon();
     }, [id]);
 
@@ -139,6 +192,57 @@ function InfoPokemon() {
         audio.play();
     };
 
+    // Helper function to get emoji for type
+    const getTypeEmoji = (type) => typeEmojis[type] || '';
+
+    // Helper function to recursively display evolution chain
+    const renderEvolutionChain = (evolutionData) => {
+        if (!evolutionData) return <p>No evolution data available.</p>;
+
+        let evolutionList = [];
+        let currentEvolution = evolutionData;
+
+        while (currentEvolution) {
+            const pokemonName = currentEvolution.species.name;
+            const pokemonId = currentEvolution.species.url.split('/')[6]; // Extract ID from the URL
+
+            evolutionList.push(
+                <span key={pokemonId}>
+                    <Link to={`/InfoPokemon/false/${pokemonId}`}>{pokemonName}</Link>{' '}
+                    {currentEvolution.evolves_to.length > 0 && '➡️'}
+                </span>
+            );
+
+            // Move to the next evolution
+            currentEvolution = currentEvolution.evolves_to[0];
+        }
+
+        return evolutionList;
+    };
+
+    // Helper function to render locations
+    const renderLocationEncounters = () => {
+        if (locations.length === 0) {
+            return <p>No location encounters available.</p>;
+        }
+        
+        return locations.map((location, index) => (
+            <div key={index}>
+                {location ? (
+                    <h6>{location}</h6>
+                ) : (
+                    <h6>Location Name: Unknown</h6>
+                )}
+                {location.version && location.version.name && (
+                    <p>Version: {location.version.name}</p>
+                )}
+                {location.encounter_method && location.encounter_method.name && (
+                    <p>Encounter Method: {location.encounter_method.name}</p>
+                )}
+            </div>
+        ));
+    };
+
     return (
         <Container className="py-5">
             <Card>
@@ -154,7 +258,7 @@ function InfoPokemon() {
                         <strong>Weight:</strong> {pokemon?.weight || 'N/A'} <br />
                         <strong>Types:</strong>{' '}
                         {pokemon?.types && pokemon.types.length > 0
-                            ? pokemon.types.map((item) => item.type.name).join(', ')
+                            ? pokemon.types.map((item) => item.type.name + ' ' + getTypeEmoji(item.type.name)).join(', ')
                             : 'No types available'}{' '}
                         <br />
                         <strong>Abilities:</strong>{' '}
@@ -182,6 +286,24 @@ function InfoPokemon() {
                 </Card.Body>
             </Card>
 
+            {/* Evolution Chain */}
+            {evolutionChain && (
+                <Card className="mt-5">
+                    <Card.Header as="h5">Evolution</Card.Header>
+                    <Card.Body>
+                        <p>{renderEvolutionChain(evolutionChain)}</p>
+                    </Card.Body>
+                </Card>
+            )}
+
+            {/* Location Encounters */}
+            <Card className="mt-5">
+                <Card.Header as="h5">Location Encounters</Card.Header>
+                <Card.Body>
+                    {renderLocationEncounters()}
+                </Card.Body>
+            </Card>
+
             {/* Moves Table */}
             <Card className="mt-5">
                 <Card.Header as="h5">Moves</Card.Header>
@@ -200,7 +322,7 @@ function InfoPokemon() {
                             {moves.map((move, index) => (
                                 <tr key={index}>
                                     <td>{move.name}</td>
-                                    <td>{move.type}</td>
+                                    <td>{move.type} {getTypeEmoji(move.type)}</td>
                                     <td>{move.power || 'N/A'}</td>
                                     <td>{move.accuracy || 'N/A'}</td>
                                     <td>{move.pp || 'N/A'}</td>

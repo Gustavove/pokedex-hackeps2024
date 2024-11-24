@@ -1,6 +1,6 @@
 import { Container, Row, Col, Card, Spinner, Button } from "react-bootstrap";
-import { getPokemonById } from "../Services/PokemonService";
-import { evolvePokemonById } from "../Services/PokemonService";
+import { getPokemonById } from "../Services/PokemonService.js";
+import { evolvePokemonById } from "../Services/PokemonService.js";
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
