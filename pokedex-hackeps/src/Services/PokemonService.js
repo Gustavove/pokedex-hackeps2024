@@ -27,8 +27,8 @@ export const evolvePokemonById = async(id) => {
 }
 
 // Capture a Pokémon (immediate)
-export const capturaPokemon = async(idZona) => {
-    const response = await capturePokemon(idZona);
+export const capturaPokemon = async(idZona, team_id) => {
+    const response = await capturePokemon(idZona, team_id);
     return response.data; // Return the response data from the event
 }
 
