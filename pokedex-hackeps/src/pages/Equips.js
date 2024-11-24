@@ -16,8 +16,7 @@ function Equips() {
                 setLoading(true);
                 setError(null); // Reset error state before fetching
                 const data = await getAllTeams();
-                const parsedData = await data.json();
-                const orderedData = parsedData.sort((a, b) => b.captured_pokemons.length - a.captured_pokemons.length);
+                const orderedData = data.sort((a, b) => b.captured_pokemons.length - a.captured_pokemons.length);
                 console.log("Fetched data:", orderedData);
                 setItems(orderedData);
                 
@@ -58,9 +57,6 @@ function Equips() {
                             <Card.Body>
                                 <Card.Title>{"Posició " + (i + 1) + ": " + item.name}</Card.Title>
                                 <Card.Text>{item.captured_pokemons.length + " pokemons atrapats."}</Card.Text>
-                                <Link to={`/team/${item.name}`}>
-                                    { <Button variant="primary">Detalles</Button>}
-                                </Link>
                             </Card.Body>
                         </Card>
                     </Col>
