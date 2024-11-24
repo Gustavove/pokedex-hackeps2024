@@ -69,7 +69,7 @@ function Llistat() {
             </Container>
         );
     }
-    console.log(pokemonList);
+
     return (
         <Container className="py-5">
             <h1 className="text-center mb-4">Pokédex</h1>
@@ -84,7 +84,7 @@ function Llistat() {
                                     variant="top"
                                     src={pokemon.image} // Sprite for captured Pokémon
                                     alt={pokemon.name}
-                                    style={{ width: "100%", height: "200px", objectFit: "contain" }} // Scale properly
+                                    style={{ width: "100%", height: "200px", objectFit: "contain" }}
                                 />
                             ) : (
                                 <div
@@ -105,7 +105,7 @@ function Llistat() {
                             )}
                             <Card.Body className="text-center">
                                 <Card.Title>
-                                    #{pokemon.id} {pokemon.name !== "Unknown" ? pokemon.name : ""} {/* ID and name */}
+                                    #{pokemon.id} {pokemon.count > 0 ? pokemon.name : "Unknown"} {/* Name or Unknown */}
                                 </Card.Title>
                                 <Card.Text>
                                     {pokemon.count > 0 ? (
@@ -114,9 +114,11 @@ function Llistat() {
                                         <span>Not Captured</span> // Indicate uncaptured Pokémon
                                     )}
                                 </Card.Text>
-                                <Link to={`/infoPokemon/false/${pokemon.id}`}>
-                                    <Button variant="primary">View Details</Button>
-                                </Link>
+                                {pokemon.count > 0 && ( // Only show the "View Details" button for captured Pokémon
+                                    <Link to={`/infoPokemon/false/${pokemon.id}`}>
+                                        <Button variant="primary">View Details</Button>
+                                    </Link>
+                                )}
                             </Card.Body>
                         </Card>
                     </Col>
