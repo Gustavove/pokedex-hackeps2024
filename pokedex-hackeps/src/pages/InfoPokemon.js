@@ -16,8 +16,10 @@ function InfoPokemon() {
                 setLoading(true);
                 setError(null); // Resetea el estado de error al iniciar la carga
                 const data = await getPokemonById(id); // Obtén los datos del Pokémon por ID
-                console.log("Fetched data:", data);
-                setPokemon(data.json());
+                
+                const parsedData = await data.json();
+                console.log("Fetched data:", parsedData);
+                setPokemon(parsedData);
             } catch (error) {
                 setError('Failed to load Pokémon information.');
             } finally {
@@ -72,14 +74,14 @@ function InfoPokemon() {
                     <Card.Text>
                         <strong>Height:</strong> {pokemon?.height || "N/A"} <br />
                         <strong>Weight:</strong> {pokemon?.weight || "N/A"} <br />
-                        <strong>Types:</strong> 
+                        <strong>Types: </strong> 
                         {pokemon?.types && pokemon.types.length > 0 
-                            ? pokemon.types.map((type) => type.name).join(', ') 
+                            ? pokemon.types.map((item) => item.type.name).join(', ') 
                             : "No types available"} 
                         <br />
-                        <strong>Abilities:</strong> 
+                        <strong>Abilities: </strong> 
                         {pokemon?.abilities && pokemon.abilities.length > 0 
-                            ? pokemon.abilities.map((ability) => ability.name).join(', ') 
+                            ? pokemon.abilities.map((item) => item.ability.name).join(', ') 
                             : "No abilities available"}
                     </Card.Text>
                     <img src={pokemon?.image} alt={pokemon?.name} style={{ width: '200px' }} />
