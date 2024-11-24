@@ -1,41 +1,99 @@
-import React from 'react';
+// InfoPokemon.js
+import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Container, Card, Button } from 'react-bootstrap';
+import { Container, Card, Button, Spinner } from 'react-bootstrap';
+import PokemonService from '../Services/pokemonService'; // Ensure the path to pokemonService is correct
+
+const dummyPokemon = {
+    id: 1,
+    name: "Bulbasaur",
+    height: 7, // Height in decimeters
+    weight: 69, // Weight in hectograms
+    types: [
+        { name: "Grass" },
+        { name: "Poison" }
+    ],
+    abilities: [
+        { name: "Overgrow" },
+        { name: "Chlorophyll" }
+    ],
+    image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png" // Example image URL
+};
+
 
 function InfoPokemon() {
-    const { id } = useParams(); // Obtener el parámetro dinámico de la URL
+    const { id } = useParams(); // Get the Pokémon ID from the URL
+    const [pokemon, setPokemon] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-    // Datos simulados (en un caso real, obtendrás esta información de una API)
-    const items = [
-        { id: 1, name: 'Item 1', description: 'Descripción detallada del Item 1', details: 'Más información sobre el Item 1.' },
-        { id: 2, name: 'Item 2', description: 'Descripción detallada del Item 2', details: 'Más información sobre el Item 2.' },
-        { id: 3, name: 'Item 3', description: 'Descripción detallada del Item 3', details: 'Más información sobre el Item 3.' },
-    ];
+    // Fetch Pokémon data when the component mounts or the ID changes
+    useEffect(() => {
+        const fetchPokemon = async () => {
+            try {
+                setLoading(true);
+                const data = await PokemonService.getPokemonById(id);
+                setPokemon(data);
+                setLoading(false);
+            } catch (error) {
+                setError('Failed to load Pokémon information.');
+                setLoading(false);
+            }
+        };
 
-    // Buscar el elemento correspondiente al ID
-    const item = items.find((item) => item.id === parseInt(id, 10));
+        fetchPokemon();
+    }, [id]);
 
-    // Si el item no existe, mostrar un mensaje de error
-    if (!item) {
+    // Show a loading spinner while data is being fetched
+    if (loading) {
         return (
             <Container className="text-center py-5">
-                <h1>Item no encontrado</h1>
+                <Spinner animation="border" variant="primary" />
+                <p>Loading...</p>
+            </Container>
+        );
+    }
+
+    // Show an error message if data fetching fails
+    if (error) {
+        return (
+            <Container className="text-center py-5">
+                <h1>{error}</h1>
                 <Link to="/">
-                    <Button variant="secondary">Volver al listado</Button>
+                    <Button variant="secondary">Back to List</Button>
                 </Link>
             </Container>
         );
     }
 
+    // If the Pokémon doesn't exist, show an error message
+    if (!pokemon) {
+        return (
+            <Container className="text-center py-5">
+                <h1>Pokémon not found</h1>
+                <Link to="/">
+                    <Button variant="secondary">Back to List</Button>
+                </Link>
+            </Container>
+        );
+    }
+
+    // Display the Pokémon's information
     return (
         <Container className="py-5">
             <Card>
-                <Card.Header as="h5">Detalles de {item.name}</Card.Header>
+                <Card.Header as="h5">Details of {pokemon.name}</Card.Header>
                 <Card.Body>
-                    <Card.Title>{item.description}</Card.Title>
-                    <Card.Text>{item.details}</Card.Text>
+                    <Card.Title>{pokemon.name}</Card.Title>
+                    <Card.Text>
+                        <strong>Height:</strong> {pokemon.height} <br />
+                        <strong>Weight:</strong> {pokemon.weight} <br />
+                        <strong>Types:</strong> {pokemon.types.map((type) => type.name).join(', ')} <br />
+                        <strong>Abilities:</strong> {pokemon.abilities.map((ability) => ability.name).join(', ')}
+                    </Card.Text>
+                    <img src={pokemon.image} alt={pokemon.name} style={{ width: '200px' }} />
                     <Link to="/">
-                        <Button variant="primary">Volver al listado</Button>
+                        <Button variant="primary" className="mt-3">Back to List</Button>
                     </Link>
                 </Card.Body>
             </Card>

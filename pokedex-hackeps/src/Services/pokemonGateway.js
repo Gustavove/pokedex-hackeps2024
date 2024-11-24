@@ -1,7 +1,7 @@
 
 
 
-import Pokemon from './Pokemon';
+import Pokemon from './pokemon';
 import Ability from './Ability';
 import Move from './Move';
 import Species  from './Species';
