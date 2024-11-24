@@ -1,3 +1,4 @@
+import { getTeam } from "./TeamService";
 
 export const getPokemons = async () => {
     const url = "https://hackeps-poke-backend.azurewebsites.net/pokemons";
@@ -11,9 +12,16 @@ export const getById = async (id) => {
     return response
 }
 
-export const evolveById = async (id) => {
+export const evolveById = async (id, uuid1, uuid2, uuid3) => {
+    const myPokemons = getTeam()
     const url = "https://hackeps-poke-backend.azurewebsites.net/pokemons" + "/" + id + "/evolve";
-    const response = fetch(url);
+    const team_id = '28620274-0860-416a-baee-4ae42f8623fd'
+    const response = fetch(
+        url, 
+        {method: 'POST', body: JSON.stringify({pokemon_uuid_list: [uuid1, uuid2, uuid3], team_id: team_id}),
+    headers: {
+        "Content-type": "application/json; charset=UTF-8"
+    }});
     return response
 }
 
